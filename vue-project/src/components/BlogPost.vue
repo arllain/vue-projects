@@ -3,6 +3,8 @@
     <p>{{ message }}</p>
     <h2>{{ id }} - {{ blogPostTitle }}</h2>
     <h4>{{ blogPostContent }}</h4>
+    <button @click="$emit('delete-blog-post', id)">Delete post</button>
+    <button @click="emitDeletePostEvent(id)">Delete post</button>
   </div>
 </template>
 
@@ -14,6 +16,12 @@ let message = ref('This is the BlogPost component')
 // defineProps({ id: Number, blogPostTitle: String, blogPostContent: String })
 let props = defineProps(['id', 'blogPostTitle', 'blogPostContent'])
 console.log(props.blogPostTitle)
+
+const emit = defineEmits(['delete-blog-post'])
+
+function emitDeletePostEvent(id) {
+  emit('delete-blog-post', id)
+}
 </script>
 
 <style scoped>

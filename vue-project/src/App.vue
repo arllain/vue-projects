@@ -1,13 +1,13 @@
 <template>
-  <BlogPost
+  <!-- <BlogPost
     id="1"
     blogPostTitle="What is a muggle?"
     blogPostContent="A muggle is a person who lacks any sort of magical ability ..."
-  />
+  /> -->
 
-  <hr />
+  <!-- <hr />
   <BlogPost :id="blogPostId" :blogPostTitle="blogPostTitle" :blogPostContent="blogPostContent" />
-
+ -->
   <!-- <hr />
   <BlogPost
     v-for="post in posts"
@@ -18,20 +18,25 @@
   ></BlogPost> -->
 
   <hr />
-  <BlogPost v-for="post in posts" :key="post.id" v-bind="post"></BlogPost>
+  <BlogPost
+    v-for="post in posts"
+    :key="post.id"
+    v-bind="post"
+    @delete-blog-post="processDeletion"
+  ></BlogPost>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import BlogPost from './components/BlogPost.vue'
 
-let blogPostId = ref(2)
-let blogPostTitle = ref(
-  'Harry Potter and the Cursed Child Bradway production suspended until April'
-)
-let blogPostContent = ref(
-  'Adding to teh earlier post, the Broadway production of Herry Potter and the Cursed Child has been ...'
-)
+// let blogPostId = ref(2)
+// let blogPostTitle = ref(
+//   'Harry Potter and the Cursed Child Bradway production suspended until April'
+// )
+// let blogPostContent = ref(
+//   'Adding to teh earlier post, the Broadway production of Herry Potter and the Cursed Child has been ...'
+// )
 
 let posts = ref([
   {
@@ -59,6 +64,11 @@ let posts = ref([
       'Adding to teh earlier post, the Broadway production of Herry Potter and the Cursed Child has been ...'
   }
 ])
+
+function processDeletion(id) {
+  let index = posts.value.findIndex((item) => item.id === id)
+  posts.value.splice(index, 1)
+}
 </script>
 
 <style scoped></style>
