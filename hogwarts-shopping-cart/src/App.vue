@@ -1,20 +1,29 @@
 <template>
   <div class="shopping-cart">
-    <h1>Harry's Shopping Cart</h1>
+    <h1>{{ userName }}'s Shopping Cart</h1>
     <div class="cart-container">
       <div class="cart-list">
         <div class="cart-list-item">
-          <img src="@/assets/DragonLiver.png" alt="Dragon Liver" class="product-image" />
+          <img
+            :src="shoppingCartItems[0].image"
+            :alt="shoppingCartItems[0].productName"
+            class="product-image"
+          />
           <div class="item-details-with-actions">
             <div class="item-details">
-              <h2>Dragon Liver</h2>
+              <h2>{{ shoppingCartItems[0].productName }}</h2>
               <p class="price">$1500</p>
               <p class="in-stock-status"><i class="fa-solid fa-check"></i> In stock</p>
             </div>
             <div class="item-actions">
               <div class="quantity-selector">
                 <button class="quantity-change-button">−</button>
-                <input type="text" class="quantity-input" value="3" aria-label="quantity" />
+                <input
+                  type="text"
+                  class="quantity-input"
+                  :value="shoppingCartItems[0].quantity"
+                  aria-label="quantity"
+                />
                 <button class="quantity-change-button">+</button>
               </div>
               <button class="remove-item">✕</button>
@@ -25,7 +34,7 @@
           <img src="@/assets/GoldenSnitch.png" alt="Golden Snitch" class="product-image" />
           <div class="item-details-with-actions">
             <div class="item-details">
-              <h2>Golden Snitch</h2>
+              <h2>{{ shoppingCartItems[1].productName }}</h2>
               <p class="price">$600</p>
               <p class="in-stock-status"><i class="fa-solid fa-check"></i> In stock</p>
             </div>
@@ -43,8 +52,8 @@
           <img src="@/assets/UnicornTailHair.png" alt="Unicorn Tail Hair" class="product-image" />
           <div class="item-details-with-actions">
             <div class="item-details">
-              <h2>Unicorn Tail Hair</h2>
-              <p class="price">$1200</p>
+              <h2>{{ shoppingCartItems[2].productName }}</h2>
+              <p class="price">${{ shoppingCartItems[2].price }}</p>
               <p class="on-backorder-status">
                 <i class="fa-solid fa-hourglass-half"></i> On backorder
               </p>
@@ -63,8 +72,8 @@
           <img src="@/assets/Wand.jpg" alt="Wand" class="product-image" />
           <div class="item-details-with-actions">
             <div class="item-details">
-              <h2>Wand</h2>
-              <p class="price">$2000</p>
+              <h2>{{ shoppingCartItems[3].productName }}</h2>
+              <p class="price">${{ shoppingCartItems[3].price }}</p>
               <p class="in-stock-status"><i class="fa-solid fa-check"></i> In stock</p>
             </div>
             <div class="item-actions">
@@ -81,8 +90,8 @@
           <img src="@/assets/Nimbus2000.jpg" alt="Nimbus 2000" class="product-image" />
           <div class="item-details-with-actions">
             <div class="item-details">
-              <h2>Nimbus 2000</h2>
-              <p class="price">$5000</p>
+              <h2>{{ shoppingCartItems[4].productName }}</h2>
+              <p class="price">${{ shoppingCartItems[4].price }}</p>
               <p class="in-stock-status"><i class="fa-solid fa-check"></i> In stock</p>
             </div>
             <div class="item-actions">
@@ -98,8 +107,10 @@
       </div>
       <div class="order-summary">
         <h2>Order summary</h2>
-        <button class="toggle-details-button">Hide Details</button>
-        <div class="">
+        <button class="toggle-details-button" @click="hideDetails = !hideDetails">
+          {{ hideDetails ? 'Show Details' : 'Hide Details' }}
+        </button>
+        <div :class="{ 'hide-order-details': hideDetails }">
           <div class="summary-item">
             <span>Subtotal</span>
             <span>$13900</span>
@@ -123,7 +134,56 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+let userName = 'Herry'
+
+let shoppingCartItems = [
+  {
+    id: 1,
+    productName: 'Dragon Liver',
+    price: 1500,
+    isInStock: true,
+    quantity: 3,
+    image: 'src/assets/DragonLiver.png'
+  },
+  {
+    id: 2,
+    productName: 'Golden Snitch',
+    price: 600,
+    isInStock: true,
+    quantity: 2,
+    image: 'src/assets/GoldenSnitch.png'
+  },
+  {
+    id: 3,
+    productName: 'Unicorn Tail Hair',
+    price: 1200,
+    isInStock: false,
+    quantity: 1,
+    image: 'src/assets/UnicornTailHair.png'
+  },
+  {
+    id: 4,
+    productName: 'Wand',
+    price: 2000,
+    isInStock: true,
+    quantity: 1,
+    image: 'src/assets/Wand.png'
+  },
+  {
+    id: 5,
+    productName: 'Nimbus 2000',
+    price: 5000,
+    isInStock: true,
+    quantity: 1,
+    image: 'src/assets/Nimbus2000.png'
+  }
+]
+
+let hideDetails = ref(false)
+</script>
 
 <style scoped>
 /* Styles for the shopping cart */
