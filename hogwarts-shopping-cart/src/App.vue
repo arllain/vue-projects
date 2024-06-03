@@ -17,14 +17,25 @@
             </div>
             <div class="item-actions">
               <div class="quantity-selector">
-                <button class="quantity-change-button">−</button>
+                <button
+                  class="quantity-change-button"
+                  @click="descreaseOne(shoppingCartItems[0].id)"
+                >
+                  −
+                </button>
                 <input
                   type="text"
                   class="quantity-input"
                   :value="shoppingCartItems[0].quantity"
                   aria-label="quantity"
+                  @blur="changeQuantity(shoppingCartItems[0].id, $event)"
                 />
-                <button class="quantity-change-button">+</button>
+                <button
+                  class="quantity-change-button"
+                  @click="increaseOne(shoppingCartItems[0].id)"
+                >
+                  +
+                </button>
               </div>
               <button class="remove-item">✕</button>
             </div>
@@ -139,7 +150,7 @@ import { ref } from 'vue'
 
 let userName = 'Herry'
 
-let shoppingCartItems = [
+let shoppingCartItems = ref([
   {
     id: 1,
     productName: 'Dragon Liver',
@@ -180,9 +191,33 @@ let shoppingCartItems = [
     quantity: 1,
     image: 'src/assets/Nimbus2000.png'
   }
-]
+])
 
 let hideDetails = ref(false)
+
+function descreaseOne(id) {
+  shoppingCartItems.value.some((item) => {
+    if (item.id === id && item.quantity != 0) {
+      item.quantity = item.quantity - 1
+    }
+  })
+}
+
+function increaseOne(id) {
+  shoppingCartItems.value.some((item) => {
+    if (item.id === id) {
+      item.quantity = item.quantity + 1
+    }
+  })
+}
+
+function changeQuantity(id, event) {
+  shoppingCartItems.value.some((item) => {
+    if (item.id === id) {
+      item.quantity = parseInt(event.target.value)
+    }
+  })
+}
 </script>
 
 <style scoped>
